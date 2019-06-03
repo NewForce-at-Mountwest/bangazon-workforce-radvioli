@@ -11,7 +11,7 @@ namespace BangazonWorkforce.Models
         public string name { get; set; }
         public int accountNumber { get; set; }
         public int CustomerId { get; set; }
-        //public Customer customerPaying { get; set; } 
+        
        
     }
 }
