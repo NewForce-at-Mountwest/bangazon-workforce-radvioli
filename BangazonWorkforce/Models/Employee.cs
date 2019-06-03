@@ -1,6 +1,6 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,18 +8,14 @@ namespace BangazonWorkforce.Models
 {
     public class Employee
     {
-        public int Id { get; set; }
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public int id { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public bool isSupervisor { get; set; }
         public int DepartmentId { get; set; }
-        public bool IsSuperVisor { get; set; }
-        [Display(Name = "Department")]
-        public Department CurrentDepartment { get; set; }
+        public int ComputerId { get; set; }
+        public Department employeesDepartment { get; set; } = new Department();
 
-        public Computer CurrentComputer { get; set; }
-        public List<TrainingProgram> TrainingPrograms { get; set; } = new List<TrainingProgram>();
-
+        public Computer employeeComputer { get; set; } = new Computer();
     }
 }
