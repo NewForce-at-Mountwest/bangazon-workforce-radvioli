@@ -20,7 +20,6 @@ namespace BangazonWorkforce.Models
 
         [Display(Name = "Current Department")]
 
-
         public Department employeesDepartment { get; set; } = new Department();
 
         public Computer employeeComputer { get; set; } = new Computer();

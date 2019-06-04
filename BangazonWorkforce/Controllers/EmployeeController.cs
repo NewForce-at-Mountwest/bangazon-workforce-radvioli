@@ -7,67 +7,28 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
-
+using BangazonWorkforce.Repositories;
 
 namespace BangazonWorkforce.Controllers
 {
     public class EmployeeController : Controller
     {
 
-        private readonly IConfiguration _config;
+    
 
         public EmployeeController(IConfiguration config)
         {
-            _config = config;
+            EmployeeRepository.SetConfig(config);
         }
 
-        public SqlConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
-        // GET: Students
+        // GET: Employees
+
         public ActionResult Index()
         {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                     SELECT e.Id,
-                     e.firstName,
-                     e.lastName,
-                     d.[Name]
-                     FROM Employee e FULL JOIN Department d ON e.DepartmentId = d.Id";
-                    SqlDataReader reader = cmd.ExecuteReader();
+            List<Employee> students = EmployeeRepository.GetEmployees();
+            return View(students);
 
-                    List<Employee> employees = new List<Employee>();
-                    while (reader.Read())
-                    {
-                        Employee employee = new Employee
-                        {
-                            id = reader.GetInt32(reader.GetOrdinal("id")),
-                            firstName = reader.GetString(reader.GetOrdinal("firstName")),
-                            lastName = reader.GetString(reader.GetOrdinal("lastName")),
-                            employeesDepartment = new Department()
-                            {
-                                name = reader.GetString(reader.GetOrdinal("name")),
-
-                            }
-
-                        };
-
-                        employees.Add(employee);
-                    }
-
-                    reader.Close();
-
-                    return View(employees);
-                }
-            }
         }
+
     }
 }
