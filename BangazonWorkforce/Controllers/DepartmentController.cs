@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using BangazonWorkforce.Models;
+using BangazonWorkforce.Models.ViewModels;
+using BangazonWorkforce.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,54 +14,21 @@ namespace BangazonWorkforce.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IConfiguration _config;
-
+        
         public DepartmentController(IConfiguration config)
         {
-            _config = config;
+
+            DepartmentRepository.SetConfig(config);
+           
         }
 
-        public SqlConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
-        // GET: Department
+
+        // GET: Departments
         public ActionResult Index()
         {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-            SELECT d.id,
-                d.name,
-                d.budget
-            FROM Department d
-        ";
-                    SqlDataReader reader = cmd.ExecuteReader();
+            List<DepartmentEmployeeListViewModel> departments = DepartmentRepository.GetDepartments();
+            return View(departments);
 
-                    List<Department> departments = new List<Department>();
-                    while (reader.Read())
-                    {
-                        Department department = new Department
-                        {
-                            id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            name = reader.GetString(reader.GetOrdinal("Name")),
-                            budget = reader.GetInt32(reader.GetOrdinal("Budget"))
-                        };
-
-                        departments.Add(department);
-                    }
-
-                    reader.Close();
-
-                    return View(departments);
-                }
-            }
         }
 
         // GET: Department/Details/5
