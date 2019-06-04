@@ -20,7 +20,7 @@ namespace BangazonWorkforce.Models.ViewModels
             department = DepartmentRepository.GetOneDepartment(id);
 
             //Need to start a List of Employees. Then Select the employees that have the Matching DepartmentId and add them to the List.
-            //List<Employee> DepartmentEmployees = EmployeeRepository.GetAllEmployees();
+            //List<Employee> DepartmentEmployees = EmployeeRepository.GetEmployees();
             //    {
 
             //    }
