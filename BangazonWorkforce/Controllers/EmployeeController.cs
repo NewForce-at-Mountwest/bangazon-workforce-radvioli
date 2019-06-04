@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
+
 
 namespace BangazonWorkforce.Controllers
 {
@@ -23,51 +28,44 @@ namespace BangazonWorkforce.Controllers
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        // GET: Employee
+        // GET: Students
         public ActionResult Index()
         {
+            using (SqlConnection conn = Connection)
             {
-                using (SqlConnection conn = Connection)
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    conn.Open();
-                    using (SqlCommand cmd = conn.CreateCommand())
+                    cmd.CommandText = @"
+                     SELECT e.Id,
+                     e.firstName,
+                     e.lastName,
+                     d.[Name]
+                     FROM Employee e FULL JOIN Department d ON e.DepartmentId = d.Id";
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Employee> employees = new List<Employee>();
+                    while (reader.Read())
                     {
-
-                        //joins employee, department
-                        string command = $@"SELECT e.Id AS 'Employee Id', e.FirstName, e.LastName, e.DepartmentId,
-                        d.Id AS 'Department Id', d.Name AS 'Department'
-                        FROM Employee e FULL JOIN Department d ON e.DepartmentId = d.Id";
-
-                        cmd.CommandText = command;
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        List<Employee> employees = new List<Employee>();
-
-                        while (reader.Read())
+                        Employee employee = new Employee
                         {
-
-
-                            Employee employee = new Employee
+                            id = reader.GetInt32(reader.GetOrdinal("id")),
+                            firstName = reader.GetString(reader.GetOrdinal("firstName")),
+                            lastName = reader.GetString(reader.GetOrdinal("lastName")),
+                            employeesDepartment = new Department()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Employee Id")),
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                CurrentDepartment = new Department()
-                                {
-                                    Name = reader.GetString(reader.GetOrdinal("Department")),
+                                name = reader.GetString(reader.GetOrdinal("name")),
 
-                                }
-                            };
+                            }
 
+                        };
 
-
-
-
-
-                            employees.Add(employee);
-                        }
-                        reader.Close();
-                        return View(employees);
+                        employees.Add(employee);
                     }
+
+                    reader.Close();
+
+                    return View(employees);
                 }
             }
         }
