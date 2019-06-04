@@ -10,10 +10,10 @@ namespace BangazonWorkforce.Models.ViewModels
     {
 
         // This is where our dropdown options will go! SelectListItem is a built in type for dropdown lists
-        public List<SelectListItem> Cohorts { get; set; }
+        public List<SelectListItem> Departments { get; set; }
 
         // An individual employee. When we render the form (i.e. make a GET request to Employee/Create) this will be null. When we submit the form (i.e. make a POST request to Employee/Create), this will hold the data from the form.
-        public Employee employee { get; set; }
+        public Employee Employee { get; set; }
 
         // Connection to the database
         protected string _connectionString;
@@ -36,48 +36,49 @@ namespace BangazonWorkforce.Models.ViewModels
 
             // When we create a new instance of this view model, we'll call the internal methods to get all the cohorts from the database
             // Then we'll map over them and convert the list of cohorts to a list of select list items
-            employee = GetEmployees()
-                .Select(employee => new SelectListItem()
+            Departments = GetDepartments()
+                .Select(department => new SelectListItem()
                 {
-                    Text = cohort.name,
-                    Value = cohort.id.ToString()
+                    Text = $"{ department.firstName } { department.lastName }",
+                    Value = department.id.ToString()
+
 
                 })
                 .ToList();
 
             // Add an option with instructiosn for how to use the dropdown
-            Cohorts.Insert(0, new SelectListItem
+            Department.Insert(0, new SelectListItem
             {
-                Text = "Choose a cohort",
+                Text = "Choose a Department",
                 Value = "0"
             });
 
         }
 
         // Internal method -- connects to DB, gets all cohorts, returns list of cohorts
-        protected List<Employee> GetEmployees()
+        protected List<Department> GetDepartments()
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT Id, Name FROM Cohort";
+                    cmd.CommandText = "SELECT id, name FROM Departments";
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    List<Employee> employees = new List<Employee>();
+                    List<Department> department = new List<Department>();
                     while (reader.Read())
                     {
-                        employees.Add(new Employee
+                        department.Add(new Department
                         {
-                            id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            name = reader.GetString(reader.GetOrdinal("Name")),
+                            id = reader.GetInt32(reader.GetOrdinal("id")),
+                            name = reader.GetString(reader.GetOrdinal("name")),
                         });
                     }
 
                     reader.Close();
 
-                    return cohorts;
+                    return department;
                 }
             }
         }

@@ -149,10 +149,10 @@ namespace BangazonWorkforce.Repositories
                 ( firstName, lastName, isSupervisor, DepartmentId )
                 VALUES
                 ( @firstName, @lastName, @isSupervisor, @DepartmentId )";
-                    cmd.Parameters.Add(new SqlParameter("@firstName", model.employee.firstName));
-                    cmd.Parameters.Add(new SqlParameter("@lastName", model.employee.lastName));
-                    cmd.Parameters.Add(new SqlParameter("@slackHandle", model.employee.isSupervisor));
-                    cmd.Parameters.Add(new SqlParameter("@cohortId", model.employee.DepartmentId));
+                    cmd.Parameters.Add(new SqlParameter("@firstName", model.Department.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", model.Department.lastName));
+                    cmd.Parameters.Add(new SqlParameter("@slackHandle", model.Department.isSupervisor));
+                    cmd.Parameters.Add(new SqlParameter("@cohortId", model.Department.DepartmentId));
                     cmd.ExecuteNonQuery();
 
 
