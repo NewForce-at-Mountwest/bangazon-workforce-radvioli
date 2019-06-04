@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BangazonWorkforce.Models;
+using BangazonWorkforce.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace BangazonWorkforce.Controllers
 {
     public class EmployeeController : Controller
     {
-        // GET: Employee
-        public ActionResult Index()
+        public EmployeeController(IConfiguration config)
+        {
+
+            EmployeeRepository.SetConfig(config);
+        }
+            // GET: Employee
+            public ActionResult Index()
         {
             return View();
         }
