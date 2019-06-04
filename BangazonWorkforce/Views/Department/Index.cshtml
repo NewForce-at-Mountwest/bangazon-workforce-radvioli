@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BangazonWorkforce.Models.Department>
+﻿@model IEnumerable<BangazonWorkforce.Models.ViewModels.DepartmentEmployeeListViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,32 +12,35 @@
 <table class="table">
     <thead>
         <tr>
+           
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.ThisDepartment.name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.name)
+                @Html.DisplayNameFor(model => model.ThisDepartment.budget)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.budget)
+                @Html.DisplayNameFor(model => model.DepartmentSize)
             </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.id)
+                @Html.DisplayFor(modelItem => item.ThisDepartment.name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.name)
+                @Html.DisplayFor(modelItem => item.ThisDepartment.budget)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.budget)
+                @Html.DisplayFor(modelItem => item.DepartmentSize)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  @*id=item.id*@ }) |
+                @Html.ActionLink("Edit", "Edit", new { @*id=item.id*@}) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
