@@ -25,8 +25,8 @@ namespace BangazonWorkforce.Controllers
 
         public ActionResult Index()
         {
-            List<Employee> students = EmployeeRepository.GetEmployees();
-            return View(students);
+            List<Employee> employees = EmployeeRepository.GetEmployees();
+            return View(employees);
 
         }
 
