@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
-
+using BangazonWorkforce.Models.ViewModels;
 
 namespace BangazonWorkforce.Repositories
 {
@@ -69,6 +69,29 @@ namespace BangazonWorkforce.Repositories
                     return employees;
                 }
             }
+        }
+
+        public static void CreateEmployee(CreateEmployeeViewModel model)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Employee
+                ( firstName, lastName, isSupervisor, DepartmentId )
+                VALUES
+                ( @firstName, @lastName, @isSupervisor, @DepartmentId )";
+                    cmd.Parameters.Add(new SqlParameter("@firstName", model.employee.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", model.employee.lastName));
+                    cmd.Parameters.Add(new SqlParameter("@slackHandle", model.employee.isSupervisor));
+                    cmd.Parameters.Add(new SqlParameter("@cohortId", model.employee.DepartmentId));
+                    cmd.ExecuteNonQuery();
+
+
+                }
+            }
+
         }
     }
 }
