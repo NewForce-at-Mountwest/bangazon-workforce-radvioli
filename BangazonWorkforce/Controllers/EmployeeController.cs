@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using BangazonWorkforce.Models;
-using BangazonWorkforce.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using BangazonWorkforce.Models;
+using BangazonWorkforce.Repositories;
 
 namespace BangazonWorkforce.Controllers
 {
@@ -17,10 +18,15 @@ namespace BangazonWorkforce.Controllers
 
             EmployeeRepository.SetConfig(config);
         }
-            // GET: Employee
-            public ActionResult Index()
+
+
+        // GET: Employees
+
+        public ActionResult Index()
         {
-            return View();
+            List<Employee> employees = EmployeeRepository.GetEmployees();
+            return View(employees);
+
         }
 
         // GET: Employee/Details/5
@@ -98,5 +104,6 @@ namespace BangazonWorkforce.Controllers
                 return View();
             }
         }
+
     }
 }

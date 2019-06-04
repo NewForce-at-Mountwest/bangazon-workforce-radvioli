@@ -1,10 +1,13 @@
-﻿using BangazonWorkforce.Models;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using BangazonWorkforce.Models;
+
 
 namespace BangazonWorkforce.Repositories
 {
@@ -24,8 +27,8 @@ namespace BangazonWorkforce.Repositories
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-
-        public static List<Employee> GetAllEmployees()
+        // GET: Students
+        public static List<Employee> GetEmployees()
         {
             using (SqlConnection conn = Connection)
             {
@@ -33,12 +36,11 @@ namespace BangazonWorkforce.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT
-                            e.Id, e.firstName, e.lastName, e.DepartmentId, e.ComputerId
-       
-                        FROM Employee e
-                        JOIN Department d ON e.DepartmentId = d.Id
-                        JOIN Computer c ON e.ComputerId = c.Id";
+                     SELECT e.Id,
+                     e.firstName,
+                     e.lastName,
+                     d.[Name]
+                     FROM Employee e FULL JOIN Department d ON e.DepartmentId = d.Id";
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Employee> employees = new List<Employee>();
@@ -46,16 +48,15 @@ namespace BangazonWorkforce.Repositories
                     {
                         Employee employee = new Employee
                         {
-                            id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            firstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                            lastName = reader.GetString(reader.GetOrdinal("LastName")),
-                            DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentId")),
-                            ComputerId = reader.GetInt32(reader.GetOrdinal("ComputerId")),
-                            employeeComputer = new Computer
+                            id = reader.GetInt32(reader.GetOrdinal("id")),
+                            firstName = reader.GetString(reader.GetOrdinal("firstName")),
+                            lastName = reader.GetString(reader.GetOrdinal("lastName")),
+                            employeesDepartment = new Department()
                             {
-                                make = reader.GetString(reader.GetOrdinal("Computer Make")),
-                                manufacturer = reader.GetString(reader.GetOrdinal("Computer Manufacturer"))
+                                name = reader.GetString(reader.GetOrdinal("name")),
+
                             }
+
                         };
 
                         employees.Add(employee);
@@ -98,7 +99,7 @@ namespace BangazonWorkforce.Repositories
                                 firstName = reader.GetString(reader.GetOrdinal("FirstName")),
                                 lastName = reader.GetString(reader.GetOrdinal("LastName")),
                                 DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentId")),
-                                employeeDepartment = new Department()
+                                employeesDepartment = new Department()
                                 {
                                     id = reader.GetInt32(reader.GetOrdinal("Department Id")),
                                     name = reader.GetString(reader.GetOrdinal("Department")),
@@ -106,7 +107,7 @@ namespace BangazonWorkforce.Repositories
 
                                 employeeComputer = null,
                                 TrainingPrograms = new List<TrainingProgram>()
-                                
+
 
                             };
                         }
