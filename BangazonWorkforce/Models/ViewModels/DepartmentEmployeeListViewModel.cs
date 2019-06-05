@@ -15,6 +15,9 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class DepartmentEmployeeListViewModel
     {
+        // This ViewModel creates an instance of the Department model and an integer representing 
+        // the number of employees, as the manager has asked for functionality that displays information from 
+        // two seperate models.
         internal Department department;
 
         [Display(Name = "Employee Count")]

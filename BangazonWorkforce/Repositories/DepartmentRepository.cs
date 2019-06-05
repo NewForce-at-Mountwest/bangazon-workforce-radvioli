@@ -90,50 +90,24 @@ namespace BangazonWorkforce.Repositories
             }
         }
         public static void CreateDepartment(Department model)
-        {
+        { //opens SQL connection
             using (SqlConnection conn = connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+                    // run SQL command text INSERT to create a new instance in the database
                     cmd.CommandText = @"INSERT INTO Department
                 ( name, budget )
                 VALUES
                 ( @name, @budget )";
+
+                    //cmd.Parameters grabs the values in the database
                     cmd.Parameters.Add(new SqlParameter("@name", model.name));
                     cmd.Parameters.Add(new SqlParameter("@budget", model.budget));
                     cmd.ExecuteNonQuery();
-
-
                 }
             }
-
         }
-        //public static Department GetOneDepartmentWithEmployees(int id)
-        //{
-        //    using (SqlConnection conn = connection)
-        //    {
-        //        conn.Open();
-        //        using (SqlCommand cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //            SELECT d.Id, 
-        //                    d.Name AS 'Department Name',
-        //                    d.Budget 
-        //                    //e.firstName, 
-        //                    //e.lastName
-        //            FROM Department d
-        //            JOIN Employee e ON e.departmentId = d.Id";
-        //            cmd.Parameters.Add(new SqlParameter("@id", id));
-        //            SqlDataReader reader = cmd.ExecuteReader();
-        //            Department department = null;
-        //            if (reader.Read())
-        //            {
-        //                department = new Department
-        //                {
-        //                    id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //                    name = reader.GetString(reader.GetOrdinal("Department Name")),
-        //                    budget = reader.GetInt32(reader.GetOrdinal("Budget")),
-        //                }
     }
 }
