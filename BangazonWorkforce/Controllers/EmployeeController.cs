@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
 using BangazonWorkforce.Repositories;
+using StudentExercisesMVC.Models.ViewModels;
 
 namespace BangazonWorkforce.Controllers
 {
@@ -39,7 +40,8 @@ namespace BangazonWorkforce.Controllers
         // GET: Employee/Create
         public ActionResult Create()
         {
-            return View();
+            CreateEmployeeViewModel employeeViewModel = new CreateEmployeeViewModel();
+            return View(employeeViewModel);
         }
 
         // POST: Employee/Create

@@ -28,7 +28,7 @@ namespace BangazonWorkforce.Repositories
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        // GET: Students
+        // GET: Employees
         public static List<Employee> GetEmployees()
         {
             using (SqlConnection conn = Connection)
@@ -152,8 +152,8 @@ namespace BangazonWorkforce.Repositories
                 ( @firstName, @lastName, @isSupervisor, @DepartmentId )";
                     cmd.Parameters.Add(new SqlParameter("@firstName", model.Employee.firstName));
                     cmd.Parameters.Add(new SqlParameter("@lastName", model.Employee.lastName));
-                    cmd.Parameters.Add(new SqlParameter("@slackHandle", model.Employee.isSupervisor));
-                    cmd.Parameters.Add(new SqlParameter("@cohortId", model.Employee.DepartmentId));
+                    cmd.Parameters.Add(new SqlParameter("@isSupervisor", model.Employee.isSupervisor));
+                    cmd.Parameters.Add(new SqlParameter("@DepartmentId", model.Employee.DepartmentId));
                     cmd.ExecuteNonQuery();
 
 
