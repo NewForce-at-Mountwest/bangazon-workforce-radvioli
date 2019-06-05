@@ -50,7 +50,7 @@ namespace BangazonWorkforce.Repositories
                                 id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 name = reader.GetString(reader.GetOrdinal("Department Name")),
                                 budget = reader.GetInt32(reader.GetOrdinal("Budget")),
-                            },                               
+                            },
                             DepartmentSize = reader.GetInt32(reader.GetOrdinal("Department Size")),
                         };
                         departments.Add(currentDepartment);

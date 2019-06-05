@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce;
 using System;
@@ -18,11 +19,8 @@ namespace BangazonWorkforce.Models.ViewModels
 
         [Display(Name = "Employee Count")]
         public int DepartmentSize { get; set; }
-        
+
         public Department ThisDepartment { get; set; }
 
     }
 }
-
-
-
