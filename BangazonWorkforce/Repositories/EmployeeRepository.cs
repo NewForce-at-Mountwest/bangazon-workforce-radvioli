@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
 using BangazonWorkforce.Models.ViewModels;
+using StudentExercisesMVC.Models.ViewModels;
 
 namespace BangazonWorkforce.Repositories
 {
@@ -149,10 +150,10 @@ namespace BangazonWorkforce.Repositories
                 ( firstName, lastName, isSupervisor, DepartmentId )
                 VALUES
                 ( @firstName, @lastName, @isSupervisor, @DepartmentId )";
-                    cmd.Parameters.Add(new SqlParameter("@firstName", model.Department.firstName));
-                    cmd.Parameters.Add(new SqlParameter("@lastName", model.Department.lastName));
-                    cmd.Parameters.Add(new SqlParameter("@slackHandle", model.Department.isSupervisor));
-                    cmd.Parameters.Add(new SqlParameter("@cohortId", model.Department.DepartmentId));
+                    cmd.Parameters.Add(new SqlParameter("@firstName", model.Employee.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", model.Employee.lastName));
+                    cmd.Parameters.Add(new SqlParameter("@slackHandle", model.Employee.isSupervisor));
+                    cmd.Parameters.Add(new SqlParameter("@cohortId", model.Employee.DepartmentId));
                     cmd.ExecuteNonQuery();
 
 
