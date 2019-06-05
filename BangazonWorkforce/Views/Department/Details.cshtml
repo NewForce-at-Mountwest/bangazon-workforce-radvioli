@@ -1,0 +1,44 @@
+﻿@model BangazonWorkforce.Models.Department
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Html.DisplayFor(model => model.name)</h1>
+
+<div>
+    <hr />
+    <div class="row">
+
+        
+            <h5 class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DepartmentEmployees)
+            </h5>
+
+        
+        </div>
+            @foreach (var item in Model.DepartmentEmployees)
+            {
+                <div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.firstName)
+                    
+                        @Html.DisplayFor(modelItem => item.lastName)
+                    </div>
+                    
+                </div>
+            }
+       
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.id*/ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+
+
+
+

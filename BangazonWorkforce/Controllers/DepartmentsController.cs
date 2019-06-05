@@ -1,61 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using BangazonWorkforce.Models;
-using BangazonWorkforce.Models.ViewModels;
 using BangazonWorkforce.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace BangazonWorkforce.Controllers
 {
-    public class DepartmentController : Controller
+    public class DepartmentsController : Controller
     {
-
-        public DepartmentController(IConfiguration config)
-        {
-
-            DepartmentRepository.SetConfig(config);
-            EmployeeRepository.SetConfig(config);
-
-        }
-
-
         // GET: Departments
         public ActionResult Index()
         {
-            List<DepartmentEmployeeListViewModel> departments = DepartmentRepository.GetDepartments();
-            return View(departments);
-
+            return View();
         }
 
-        // GET: Department/Details/5
+        // GET: Departments/Details/5
         public ActionResult Details(int id)
         {
             Department department = DepartmentRepository.GetOneDepartment(id);
-
             return View(department);
         }
 
-        // GET: Department/Create
+        // GET: Departments/Create
         public ActionResult Create()
         {
-            Department NewDepartment = new Department();
-            return View(NewDepartment);
+            return View();
         }
 
-        // POST: Department/Create
+        // POST: Departments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Department model)
+        public ActionResult Create(IFormCollection collection)
         {
             try
             {
                 // TODO: Add insert logic here
-                DepartmentRepository.CreateDepartment(model);
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -64,13 +47,13 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
-        // GET: Department/Edit/5
+        // GET: Departments/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Department/Edit/5
+        // POST: Departments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -87,13 +70,13 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
-        // GET: Department/Delete/5
+        // GET: Departments/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Department/Delete/5
+        // POST: Departments/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
