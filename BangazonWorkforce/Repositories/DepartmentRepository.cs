@@ -32,9 +32,9 @@ namespace BangazonWorkforce.Repositories
                         d.Id,
                         d.Name AS 'Department Name',
                         d.Budget ,
-                        COUNT(*) AS 'Department Size'
+                        COUNT(e.Id) AS 'Department Size'
                         FROM Employee e
-                        JOIN Department d 
+                        RIGHT JOIN Department d 
                         ON e.DepartmentId = d.Id
                         GROUP BY d.Id, d.Name, d.Budget";
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -88,6 +88,26 @@ namespace BangazonWorkforce.Repositories
                     return department;
                 }
             }
+        }
+        public static void CreateDepartment(Department model)
+        {
+            using (SqlConnection conn = connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Department
+                ( name, budget )
+                VALUES
+                ( @name, @budget )";
+                    cmd.Parameters.Add(new SqlParameter("@name", model.name));
+                    cmd.Parameters.Add(new SqlParameter("@budget", model.budget));
+                    cmd.ExecuteNonQuery();
+
+
+                }
+            }
+
         }
         //public static Department GetOneDepartmentWithEmployees(int id)
         //{

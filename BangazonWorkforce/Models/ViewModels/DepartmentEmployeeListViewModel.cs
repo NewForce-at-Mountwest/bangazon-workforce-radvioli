@@ -14,7 +14,7 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class DepartmentEmployeeListViewModel
     {
-        internal Department departmentt;
+        internal Department department;
 
         [Display(Name = "Employee Count")]
         public int DepartmentSize { get; set; }
