@@ -15,12 +15,15 @@ namespace BangazonWorkforce.Models.ViewModels
         public List<int> SelectedDepartment { get; set; }
         public List<SelectListItem> Computers { get; set; }
 
-        public Employee employee { get; set; }
+        public Employee Employee { get; set; }
 
         public EmployeeEditViewModel() { }
 
         public EmployeeEditViewModel(int employeeId)
         {
+            Employee = EmployeeRepository.GetOneEmployee(employeeId);
+            //employee.employeesDepartment = DepartmentRepository.GetOneDepartment(employeeId);
+
             Departments = DepartmentRepository.GetDepartments()
                 .Select(department => new SelectListItem()
                 {
@@ -35,6 +38,8 @@ namespace BangazonWorkforce.Models.ViewModels
                 Text = "Choose a Department",
                 Value = "0"
             });
+
+            
         }
     }
 }

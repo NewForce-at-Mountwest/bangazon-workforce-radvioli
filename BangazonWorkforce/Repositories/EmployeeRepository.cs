@@ -137,12 +137,16 @@ namespace BangazonWorkforce.Repositories
                 }
             }
         }
+
+        //Getting single employee with their department
         public static Employee GetOneEmployeeWithDepartment(int id)
         {
             Employee employee = GetOneEmployee(id);
-            //Departments = DepartmentRepository.GetDepartments();
+            employee.employeesDepartment = DepartmentRepository.GetOneDepartment(id);
             return employee;
         }
+
+        //edit an employee
 
         public static void EditEmployee(int id, EmployeeEditViewModel employeeEditViewModel)
         {
@@ -152,18 +156,19 @@ namespace BangazonWorkforce.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     string command = @"UPDATE Employee
-SET firstName=@firstName, lastName=@lastName, employeesDepartment=@employeesDepartment, employeeComputer=@employeeComputer WHERE Id=@id DELETE from Department WHERE employeeId=@id";
+                                    SET firstName=@firstName, 
+                                    lastName=@lastName, 
+                                    DepartmentId=@departmentId                                 
+                                     WHERE Id=@id";
 
-                    employeeEditViewModel.Departments.ForEach(departmentId =>
-                    {
-                        command += $" INSERT INTO Department (employeeId, departmentId) VALUES (@id, {departmentId})";
-                    });
+                    Employee uneditedEmployee = EmployeeRepository.GetOneEmployee(id);
+
                     cmd.CommandText = command;
-                    cmd.Parameters.Add(new SqlParameter("@firstName", employeeEditViewModel.employee.firstName));
-                    cmd.Parameters.Add(new SqlParameter("@lastName", employeeEditViewModel.employee.lastName));
-                    cmd.Parameters.Add(new SqlParameter("@employeesDepartment", employeeEditViewModel.employee.employeesDepartment));
-                    cmd.Parameters.Add(new SqlParameter("@employeeComputer", employeeEditViewModel.employee.employeeComputer));
-                    cmd.Parameters.Add(new SqlParameter("@id", employeeEditViewModel.employee.id));
+                    cmd.Parameters.Add(new SqlParameter("@firstName", employeeEditViewModel.Employee.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", employeeEditViewModel.Employee.lastName));
+                    cmd.Parameters.Add(new SqlParameter("@departmentId", employeeEditViewModel.Employee.DepartmentId));
+                    //cmd.Parameters.Add(new SqlParameter("@computerId", employeeEditViewModel.Employee.employeeComputer.id));
+                   //cmd.Parameters.Add(new SqlParameter("@id", employeeEditViewModel.Employee.id));
 
                     int rowsAffected = cmd.ExecuteNonQuery();
                 }
