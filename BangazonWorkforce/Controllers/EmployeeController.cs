@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
 using BangazonWorkforce.Repositories;
-using StudentExercisesMVC.Models.ViewModels;
+using BangazonWorkforce.Models.ViewModels;
 
 namespace BangazonWorkforce.Controllers
 {

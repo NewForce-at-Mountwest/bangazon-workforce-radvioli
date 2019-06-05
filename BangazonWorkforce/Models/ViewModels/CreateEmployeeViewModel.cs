@@ -4,7 +4,7 @@ using System.Linq;
 using BangazonWorkforce.Repositories;
 using BangazonWorkforce.Models;
 
-namespace StudentExercisesMVC.Models.ViewModels
+namespace BangazonWorkforce.Models.ViewModels
 {
     public class CreateEmployeeViewModel
     {

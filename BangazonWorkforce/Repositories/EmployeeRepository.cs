@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
 using BangazonWorkforce.Models.ViewModels;
-using StudentExercisesMVC.Models.ViewModels;
 
 namespace BangazonWorkforce.Repositories
 {
