@@ -40,7 +40,7 @@ namespace BangazonWorkforce.Repositories
                      e.firstName,
                      e.lastName,
                      d.[Name]
-                     FROM Employee e FULL JOIN Department d ON e.DepartmentId = d.Id";
+                     FROM Employee e JOIN Department d ON e.DepartmentId = d.Id";
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Employee> employees = new List<Employee>();
