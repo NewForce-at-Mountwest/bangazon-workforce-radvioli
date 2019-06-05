@@ -8,6 +8,8 @@ namespace StudentExercisesMVC.Models.ViewModels
 {
     public class CreateEmployeeViewModel
     {
+
+        //This is a view model thats needed because when you create a new employee, a list of departments(dropdown) is needed
         public List<SelectListItem> Departments { get; set; }
         public Employee Employee { get; set; }
       
@@ -17,7 +19,7 @@ namespace StudentExercisesMVC.Models.ViewModels
         public CreateEmployeeViewModel()
         {
 
-
+            //This code loops through all departments and gets the name and Id for the dropdown
             Departments = DepartmentRepository.GetDepartments()
                 .Select(department => new SelectListItem()
                 {
