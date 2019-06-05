@@ -19,6 +19,7 @@ namespace BangazonWorkforce.Controllers
         {
 
             DepartmentRepository.SetConfig(config);
+            EmployeeRepository.SetConfig(config);
 
         }
 
