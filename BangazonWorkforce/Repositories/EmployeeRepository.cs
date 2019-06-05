@@ -158,8 +158,9 @@ namespace BangazonWorkforce.Repositories
                     string command = @"UPDATE Employee
                                     SET firstName=@firstName, 
                                     lastName=@lastName, 
-                                    DepartmentId=@departmentId                                 
-                                     WHERE Id=@id";
+                                    DepartmentId=@departmentId,
+                                    ComputerId=@computerId
+                                    WHERE Id=@id";
 
                     Employee uneditedEmployee = EmployeeRepository.GetOneEmployee(id);
 
@@ -167,8 +168,8 @@ namespace BangazonWorkforce.Repositories
                     cmd.Parameters.Add(new SqlParameter("@firstName", employeeEditViewModel.Employee.firstName));
                     cmd.Parameters.Add(new SqlParameter("@lastName", employeeEditViewModel.Employee.lastName));
                     cmd.Parameters.Add(new SqlParameter("@departmentId", employeeEditViewModel.Employee.DepartmentId));
-                    //cmd.Parameters.Add(new SqlParameter("@computerId", employeeEditViewModel.Employee.employeeComputer.id));
-                   //cmd.Parameters.Add(new SqlParameter("@id", employeeEditViewModel.Employee.id));
+                    cmd.Parameters.Add(new SqlParameter("@computerId", employeeEditViewModel.Employee.employeeComputer.id));
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
 
                     int rowsAffected = cmd.ExecuteNonQuery();
                 }
