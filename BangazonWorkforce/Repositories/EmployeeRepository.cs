@@ -144,7 +144,7 @@ namespace BangazonWorkforce.Repositories
             return employee;
         }
 
-        public static Employee EditEmployee(int id, EmployeeEditViewModel employeeEditViewModel)
+        public static void EditEmployee(int id, EmployeeEditViewModel employeeEditViewModel)
         {
             using (SqlConnection conn = Connection)
             {
