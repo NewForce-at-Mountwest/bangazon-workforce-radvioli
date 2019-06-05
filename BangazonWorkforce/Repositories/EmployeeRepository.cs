@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
-
+using BangazonWorkforce.Models.ViewModels;
 
 namespace BangazonWorkforce.Repositories
 {
@@ -134,6 +134,38 @@ namespace BangazonWorkforce.Repositories
                     }
                     reader.Close();
                     return employee;
+                }
+            }
+        }
+        public static Employee GetOneEmployeeWithDepartment(int id)
+        {
+            Employee employee = GetOneEmployee(id);
+            //Departments = DepartmentRepository.GetDepartments();
+            return employee;
+        }
+
+        public static Employee EditEmployee(int id, EmployeeEditViewModel employeeEditViewModel)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    string command = @"UPDATE Employee
+SET firstName=@firstName, lastName=@lastName, employeesDepartment=@employeesDepartment, employeeComputer=@employeeComputer WHERE Id=@id DELETE from Department WHERE employeeId=@id";
+
+                    employeeEditViewModel.Departments.ForEach(departmentId =>
+                    {
+                        command += $" INSERT INTO Department (employeeId, departmentId) VALUES (@id, {departmentId})";
+                    });
+                    cmd.CommandText = command;
+                    cmd.Parameters.Add(new SqlParameter("@firstName", employeeEditViewModel.employee.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", employeeEditViewModel.employee.lastName));
+                    cmd.Parameters.Add(new SqlParameter("@employeesDepartment", employeeEditViewModel.employee.employeesDepartment));
+                    cmd.Parameters.Add(new SqlParameter("@employeeComputer", employeeEditViewModel.employee.employeeComputer));
+                    cmd.Parameters.Add(new SqlParameter("@id", employeeEditViewModel.employee.id));
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
                 }
             }
         }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using BangazonWorkforce.Models;
 using BangazonWorkforce.Repositories;
+using BangazonWorkforce.Models.ViewModels;
 
 namespace BangazonWorkforce.Controllers
 {
@@ -17,6 +18,7 @@ namespace BangazonWorkforce.Controllers
         {
 
             EmployeeRepository.SetConfig(config);
+            DepartmentRepository.SetConfig(config);
         }
 
 
@@ -62,23 +64,25 @@ namespace BangazonWorkforce.Controllers
         // GET: Employee/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel(id);
+
+            return View(employeeEditViewModel);
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EmployeeEditViewModel employeeEditViewModel)
         {
             try
             {
-                // TODO: Add update logic here
+                EmployeeRepository.EditEmployee(id, employeeEditViewModel);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                return View(employeeEditViewModel);
             }
         }
 
