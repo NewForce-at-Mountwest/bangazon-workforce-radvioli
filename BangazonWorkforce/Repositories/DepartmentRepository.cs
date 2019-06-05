@@ -1,11 +1,8 @@
 ﻿using BangazonWorkforce.Models;
 using BangazonWorkforce.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BangazonWorkforce.Repositories
 {
@@ -37,9 +34,9 @@ namespace BangazonWorkforce.Repositories
                         d.Id,
                         d.Name AS 'Department Name',
                         d.Budget ,
-                        COUNT(*) AS 'Department Size'
+                        COUNT(e.Id) AS 'Department Size'
                         FROM Employee e
-                        JOIN Department d
+                        RIGHT JOIN Department d 
                         ON e.DepartmentId = d.Id
                         GROUP BY d.Id, d.Name, d.Budget";
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -123,5 +120,25 @@ namespace BangazonWorkforce.Repositories
         }
         
 
+        public static void CreateDepartment(Department model)
+        { //opens SQL connection
+            using (SqlConnection conn = connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // run SQL command text INSERT to create a new instance in the database
+                    cmd.CommandText = @"INSERT INTO Department
+                ( name, budget )
+                VALUES
+                ( @name, @budget )";
+
+                    //cmd.Parameters grabs the values in the database
+                    cmd.Parameters.Add(new SqlParameter("@name", model.name));
+                    cmd.Parameters.Add(new SqlParameter("@budget", model.budget));
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

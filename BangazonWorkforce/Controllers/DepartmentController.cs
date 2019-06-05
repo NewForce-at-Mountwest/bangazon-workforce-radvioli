@@ -43,18 +43,19 @@ namespace BangazonWorkforce.Controllers
         // GET: Department/Create
         public ActionResult Create()
         {
-            return View();
+            Department NewDepartment = new Department();
+            return View(NewDepartment);
         }
 
         // POST: Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Department model)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                DepartmentRepository.CreateDepartment(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
