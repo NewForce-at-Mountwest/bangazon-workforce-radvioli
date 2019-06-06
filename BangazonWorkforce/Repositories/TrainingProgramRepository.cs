@@ -59,5 +59,24 @@ namespace BangazonWorkforce.Repositories
                 }
             }
         }
+        public static void CreateTrainingProgram(TrainingProgram model)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO TrainingProgram
+                                       (name, startDate, endDate, maxAttendees)
+                                        VALUES (@name, @startDate, @endDate, @maxAttendees)";
+                    cmd.Parameters.Add(new SqlParameter("@name", model.name));
+                    cmd.Parameters.Add(new SqlParameter("@startDate", model.startDate));
+                    cmd.Parameters.Add(new SqlParameter("@endDate", model.endDate));
+                    cmd.Parameters.Add(new SqlParameter("@maxAttendees", model.maxAttendees));
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
