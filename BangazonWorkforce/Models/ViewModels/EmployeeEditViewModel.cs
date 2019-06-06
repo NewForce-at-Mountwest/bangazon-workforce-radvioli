@@ -13,7 +13,7 @@ namespace BangazonWorkforce.Models.ViewModels
         [Display(Name = "Departments")]
         public List<SelectListItem> Departments { get; set; } = new List<SelectListItem>();
         public List<int> SelectedDepartment { get; set; }
-        public List<SelectListItem> Computers { get; set; }
+        //public List<SelectListItem> Computers { get; set; }
 
         public Employee Employee { get; set; }
 
