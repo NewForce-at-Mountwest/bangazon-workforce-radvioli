@@ -26,7 +26,9 @@ namespace BangazonWorkforce.Controllers
         // GET: TrainingProgram/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            TrainingProgram trainingProgram = TrainingProgramRepository.GetOneProgram(id);
+
+            return View(trainingProgram);
         }
 
         // GET: TrainingProgram/Create

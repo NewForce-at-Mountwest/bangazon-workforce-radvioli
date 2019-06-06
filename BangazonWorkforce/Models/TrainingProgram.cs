@@ -18,5 +18,15 @@ namespace BangazonWorkforce.Models
         public DateTime endDate { get; set; }
         public int maxAttendees { get; set; }
         public List<Employee> employeesInProgram { get; set; }
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if ((DateTime.Compare(endDate, startDate) < 0))
+            {
+                yield return new ValidationResult(
+                    $"End date must be later than start date.",
+                    new[] { "EndDate" });
+            }
+        }
     }
 }
+   
