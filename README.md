@@ -6,7 +6,7 @@ Bangazon Workforce Management Site is an internal application built for Human Re
 
 ``DATABASE SETUP``
 
-If you have not already set up a database for this, you'll need to do so. To do this, open SSMS and click the option to create a new database. Name your database Ravioli and begin the process of setting this up. You can find all of the information you'll need here:
+If you have not already set up a database for this, you'll need to do so. To do this, open SSMS (Microsoft SQL Server Management Studio) and click the option to create a new database. Name your database Ravioli and begin the process of setting this up. You can find all of the information you'll need here:
 https://gist.github.com/nikx1015/cb23e425bc71e489ef4017794537ea9a
 
 You can copy the code beginning with CREATE Table and ending before the ALTER table.
@@ -14,9 +14,11 @@ Once you run this, your initial tables and columns should be set up and you can 
 
 ``CLONING THE GITHUB PROJECT``
 
-Next, you'll need to clone the files from Github and launch Visual Studio. Open the sln file you just created.
+Next, you'll need to clone the files from Github and launch Visual Studio. Open the .sln file you just created.
 
-``EDIT THE APPSETTINGS FILE``
+```INSTRUCTIONS FOR USING SQL SERVER```
+
+-EDIT THE APPSETTINGS FILE-
 
 Go to your appsettings.json file and replace the code inside with this: { "Logging": { "LogLevel": { "Default": "Warning" } }, "AllowedHosts": "*", "ConnectionStrings": { "DefaultConnection": "Server=localhost\SQLEXPRESS;Database=Ravioli;Trusted_Connection=True;" } }
 
@@ -44,11 +46,11 @@ To view an employees details, choose an employee from the employee list and clic
 
 The Department feature of the app is functioning as well. You may view all departments or view a single department and the details of that department.
 
-TO use the features, use the ctrl+F5 command in visual studio to launch the app. Once it's loaded, you may click on the department affordance to be taken to the department section of the app. You should see a list of departments with an toption to view the details of each department. You should also see an affordance to create a new department.
+To use the features, use the ctrl+F5 command in visual studio to launch the app. Once it's loaded, you may click on the department affordance to be taken to the department section of the app. You should see a list of departments with an option to view the details of each department. You should also see an affordance to create a new department.
 
 To create a new department, click on the affordance that says create new department. You'll be redirected to a form where you may enter a departments information. Once you've finished, click submit and you should be redirected back to the list of departments. If you scroll to the bottom of this list, you should see the department you created.
 
-To view a departments details, choose a department from the department list and lick the details link beside the name of the department. You'll be redirected to a new page with that departments information.
+To view a departments details, choose a department from the department list and click the details link beside the name of the department. You'll be redirected to a new page with that departments information.
 
 ```FEATURES IN DEVELOPMENT```
 
@@ -70,5 +72,5 @@ C#, SQL
 
 ```COLLABORATORS```
 
-This app was built in collaboration with Matt Rowe, Nikki Ash, Dale Saul, Russell Miller, and Josh Joseph.
+This app was built in collaboration with Matt Rowe, Nikki Ash, Dale Saul, and Russell Miller.
 bangazon-workforce-radvioli created by GitHub Classroom
