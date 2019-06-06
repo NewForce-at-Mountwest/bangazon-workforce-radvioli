@@ -62,6 +62,7 @@ namespace BangazonWorkforce.Repositories
                 }
             }
         }
+        //This GETs a single Department by Id with a list of Employees assigned.
         public static Department GetOneDepartment(int id)
         {
             List<Employee> departmentEmployees = new List<Employee>();
