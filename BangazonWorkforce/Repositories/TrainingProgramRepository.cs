@@ -31,10 +31,11 @@ namespace BangazonWorkforce.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT 
-                        tp.Id, tp.Name AS 'Trng Prgm Name', 
-                        tp.StartDate AS 'Trng Prgm Start', 
-                        tp.EndDate AS 'Trng Prgm End', 
+                        SELECT
+
+                        tp.Id, tp.Name AS 'Trng Prgm Name',
+                        tp.StartDate AS 'Trng Prgm Start',
+                        tp.EndDate AS 'Trng Prgm End',
                         tp.MaxAttendees AS 'Max Attendees'
                         FROM TrainingProgram tp
                         ";
@@ -62,22 +63,25 @@ namespace BangazonWorkforce.Repositories
                 }
             }
         }
+
         public static TrainingProgram GetOneProgram(int id)
         {
             List<Employee> ProgramEmployees = new List<Employee>();
+
 
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+
                     cmd.CommandText = @"
                       SELECT tp.Id,
                               tp.Name AS 'Name',
                               tp.StartDate AS 'Start Date',
                               tp.EndDate AS 'End Date',
-                              tp.MaxAttendees AS 'Max Attendees' 
-                      FROM TrainingProgram tp                   
+                              tp.MaxAttendees AS 'Max Attendees'
+                      FROM TrainingProgram tp
                       WHERE tp.Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
@@ -118,6 +122,30 @@ namespace BangazonWorkforce.Repositories
                 }
             }
         }
+
+
+
+
+        public static void CreateTrainingProgram(TrainingProgram model)
+        {
+
+using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO TrainingProgram
+                                       (name, startDate, endDate, maxAttendees)
+                                        VALUES (@name, @startDate, @endDate, @maxAttendees)";
+                    cmd.Parameters.Add(new SqlParameter("@name", model.name));
+                    cmd.Parameters.Add(new SqlParameter("@startDate", model.startDate));
+                    cmd.Parameters.Add(new SqlParameter("@endDate", model.endDate));
+                    cmd.Parameters.Add(new SqlParameter("@maxAttendees", model.maxAttendees));
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
 

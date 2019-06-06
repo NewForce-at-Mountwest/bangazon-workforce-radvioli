@@ -20,7 +20,7 @@ namespace BangazonWorkforce.Controllers
         public ActionResult Index()
         {
             List<TrainingProgram> tpsReport = TrainingProgramRepository.GetTrainingPrograms();
-            return View();
+            return View(tpsReport);
         }
 
         // GET: TrainingProgram/Details/5
@@ -34,17 +34,21 @@ namespace BangazonWorkforce.Controllers
         // GET: TrainingProgram/Create
         public ActionResult Create()
         {
-            return View();
+
+            TrainingProgram TrainingProgram = new TrainingProgram();
+            return View(TrainingProgram);
         }
 
         // POST: TrainingProgram/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(TrainingProgram model)
         {
             try
             {
-                // TODO: Add insert logic here
+
+
+                TrainingProgramRepository.CreateTrainingProgram(model);
 
                 return RedirectToAction(nameof(Index));
             }
