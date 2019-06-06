@@ -20,7 +20,7 @@ namespace BangazonWorkforce.Controllers
         public ActionResult Index()
         {
             List<TrainingProgram> tpsReport = TrainingProgramRepository.GetTrainingPrograms();
-            return View();
+            return View(tpsReport);
         }
 
         // GET: TrainingProgram/Details/5
