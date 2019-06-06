@@ -16,9 +16,9 @@ namespace BangazonWorkforce.Controllers
     {
         public EmployeeController(IConfiguration config)
         {
-
-            EmployeeRepository.SetConfig(config);
             DepartmentRepository.SetConfig(config);
+            EmployeeRepository.SetConfig(config);
+           
         }
 
 
@@ -41,24 +41,26 @@ namespace BangazonWorkforce.Controllers
         // GET: Employee/Create
         public ActionResult Create()
         {
-            return View();
+            CreateEmployeeViewModel employeeViewModel = new CreateEmployeeViewModel();
+            return View(employeeViewModel);
         }
 
-        // POST: Employee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CreateEmployeeViewModel model)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                EmployeeRepository.CreateEmployee(model);
                 return RedirectToAction(nameof(Index));
+
             }
             catch
             {
                 return View();
             }
+
+
         }
 
         // GET: Employee/Edit/5
@@ -80,7 +82,7 @@ namespace BangazonWorkforce.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch (Exception taco)
             {
                 return View(employeeEditViewModel);
             }

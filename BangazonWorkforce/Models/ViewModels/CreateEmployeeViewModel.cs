@@ -1,28 +1,25 @@
-﻿using BangazonWorkforce.Repositories;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
+using BangazonWorkforce.Repositories;
+using BangazonWorkforce.Models;
 
 namespace BangazonWorkforce.Models.ViewModels
 {
-    public class EmployeeEditViewModel
+    public class CreateEmployeeViewModel
     {
-        [Display(Name = "Departments")]
-        public List<SelectListItem> Departments { get; set; } = new List<SelectListItem>();
-        public List<int> SelectedDepartment { get; set; }
-        public List<SelectListItem> Computers { get; set; }
 
+        //This is a view model thats needed because when you create a new employee, a list of departments(dropdown) is needed
+        public List<SelectListItem> Departments { get; set; }
         public Employee Employee { get; set; }
+      
 
-        public EmployeeEditViewModel() { }
 
-        public EmployeeEditViewModel(int employeeId)
+
+        public CreateEmployeeViewModel()
         {
-            Employee = EmployeeRepository.GetOneEmployee(employeeId);
 
+            //This code loops through all departments and gets the name and Id for the dropdown
             Departments = DepartmentRepository.GetDepartments()
                 .Select(department => new SelectListItem()
                 {
@@ -38,7 +35,8 @@ namespace BangazonWorkforce.Models.ViewModels
                 Value = "0"
             });
 
-            
         }
+
+
     }
 }

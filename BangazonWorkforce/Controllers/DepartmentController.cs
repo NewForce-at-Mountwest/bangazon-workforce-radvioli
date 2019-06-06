@@ -14,12 +14,13 @@ namespace BangazonWorkforce.Controllers
 {
     public class DepartmentController : Controller
     {
-        
+
         public DepartmentController(IConfiguration config)
         {
 
             DepartmentRepository.SetConfig(config);
-           
+            EmployeeRepository.SetConfig(config);
+
         }
 
 
@@ -34,24 +35,27 @@ namespace BangazonWorkforce.Controllers
         // GET: Department/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Department department = DepartmentRepository.GetOneDepartment(id);
+
+            return View(department);
         }
 
         // GET: Department/Create
         public ActionResult Create()
         {
-            return View();
+            Department NewDepartment = new Department();
+            return View(NewDepartment);
         }
 
         // POST: Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Department model)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                DepartmentRepository.CreateDepartment(model);
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -27,7 +27,7 @@ namespace BangazonWorkforce.Repositories
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        // GET: Students
+        // GET: Employees
         public static List<Employee> GetEmployees()
         {
             using (SqlConnection conn = Connection)
@@ -40,7 +40,7 @@ namespace BangazonWorkforce.Repositories
                      e.firstName,
                      e.lastName,
                      d.[Name]
-                     FROM Employee e FULL JOIN Department d ON e.DepartmentId = d.Id";
+                     FROM Employee e JOIN Department d ON e.DepartmentId = d.Id";
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Employee> employees = new List<Employee>();
@@ -138,6 +138,28 @@ namespace BangazonWorkforce.Repositories
             }
         }
 
+        public static void CreateEmployee(CreateEmployeeViewModel model)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Employee
+                ( firstName, lastName, isSupervisor, DepartmentId )
+                VALUES
+                ( @firstName, @lastName, @isSupervisor, @DepartmentId )";
+                    cmd.Parameters.Add(new SqlParameter("@firstName", model.Employee.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", model.Employee.lastName));
+                    cmd.Parameters.Add(new SqlParameter("@isSupervisor", model.Employee.isSupervisor));
+                    cmd.Parameters.Add(new SqlParameter("@DepartmentId", model.Employee.DepartmentId));
+                    cmd.ExecuteNonQuery();
+
+
+                }
+            }
+
+        }
         //Getting single employee with their department
         public static Employee GetOneEmployeeWithDepartment(int id)
         {
@@ -162,13 +184,13 @@ namespace BangazonWorkforce.Repositories
                                     ComputerId=@computerId
                                     WHERE Id=@id";
 
-                    Employee uneditedEmployee = EmployeeRepository.GetOneEmployee(id);
+                    //Employee uneditedEmployee = EmployeeRepository.GetOneEmployee(id);
 
                     cmd.CommandText = command;
                     cmd.Parameters.Add(new SqlParameter("@firstName", employeeEditViewModel.Employee.firstName));
                     cmd.Parameters.Add(new SqlParameter("@lastName", employeeEditViewModel.Employee.lastName));
                     cmd.Parameters.Add(new SqlParameter("@departmentId", employeeEditViewModel.Employee.DepartmentId));
-                    cmd.Parameters.Add(new SqlParameter("@computerId", employeeEditViewModel.Employee.employeeComputer.id));
+                    cmd.Parameters.Add(new SqlParameter("@computerId", employeeEditViewModel.Employee.ComputerId));
                     cmd.Parameters.Add(new SqlParameter("@id", id));
 
                     int rowsAffected = cmd.ExecuteNonQuery();
