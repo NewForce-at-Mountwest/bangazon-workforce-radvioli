@@ -10,7 +10,7 @@ using BangazonWorkforce.Models;
 using BangazonWorkforce.Models.ViewModels;
 
 namespace BangazonWorkforce.Repositories
-{
+{ 
     public class EmployeeRepository
     {
         private static IConfiguration _config;
@@ -159,6 +159,43 @@ namespace BangazonWorkforce.Repositories
                 }
             }
 
+        }
+        //Getting single employee with their department
+        public static Employee GetOneEmployeeWithDepartment(int id)
+        {
+            Employee employee = GetOneEmployee(id);
+            employee.employeesDepartment = DepartmentRepository.GetOneDepartment(id);
+            return employee;
+        }
+
+        //edit an employee
+
+        public static void EditEmployee(int id, EmployeeEditViewModel employeeEditViewModel)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    string command = @"UPDATE Employee
+                                    SET 
+                                    firstName=@firstName, 
+                                    lastName=@lastName, 
+                                    DepartmentId=@departmentId
+                                    WHERE id=@id";
+
+                    //Employee uneditedEmployee = EmployeeRepository.GetOneEmployee(id);
+
+                    cmd.CommandText = command;
+                    cmd.Parameters.Add(new SqlParameter("@firstName", employeeEditViewModel.Employee.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", employeeEditViewModel.Employee.lastName));
+                    cmd.Parameters.Add(new SqlParameter("@departmentId", employeeEditViewModel.Employee.DepartmentId));
+                    
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

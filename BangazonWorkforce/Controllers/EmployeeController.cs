@@ -18,6 +18,7 @@ namespace BangazonWorkforce.Controllers
         {
             DepartmentRepository.SetConfig(config);
             EmployeeRepository.SetConfig(config);
+           
         }
 
 
@@ -65,23 +66,25 @@ namespace BangazonWorkforce.Controllers
         // GET: Employee/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel(id);
+
+            return View(employeeEditViewModel);
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EmployeeEditViewModel employeeEditViewModel)
         {
             try
             {
-                // TODO: Add update logic here
+                EmployeeRepository.EditEmployee(id, employeeEditViewModel);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception taco)
             {
-                return View();
+                return View(employeeEditViewModel);
             }
         }
 
