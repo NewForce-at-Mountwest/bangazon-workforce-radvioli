@@ -149,7 +149,43 @@ using (SqlConnection conn = Connection)
                 }
             }
         }
+        //Getting single training program with their department
+        public static TrainingProgram GetOneTrainingProgram(int id)
+        {
+            TrainingProgram trainingProgram = GetOneProgram(id);           
+            return trainingProgram;
+        }
 
+        //edit a program
+
+        public static void EditProgram(int id, TrainingProgram trainingProgram)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    string command = @"UPDATE TrainingProgram
+                                    SET 
+                                    name=@name, 
+                                    startDate=@startDate, 
+                                    endDate=@endDate,
+                                    maxAttendees=@maxAttendees
+                                    WHERE id=@id";
+
+                    
+
+                    cmd.CommandText = command;
+                    cmd.Parameters.Add(new SqlParameter("@name", trainingProgram.name));
+                    cmd.Parameters.Add(new SqlParameter("@startDate", trainingProgram.startDate));
+                    cmd.Parameters.Add(new SqlParameter("@endDate", trainingProgram.endDate));
+                    cmd.Parameters.Add(new SqlParameter("@maxAttendees", trainingProgram.maxAttendees));
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
 

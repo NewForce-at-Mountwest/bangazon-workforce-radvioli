@@ -59,25 +59,28 @@ namespace BangazonWorkforce.Controllers
         // GET: TrainingProgram/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            TrainingProgram trainingProgram = TrainingProgramRepository.GetOneProgram(id);
+
+            return View(trainingProgram);
         }
 
         // POST: TrainingProgram/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, TrainingProgram trainingProgram)
         {
             try
             {
-                // TODO: Add update logic here
+                TrainingProgramRepository.EditProgram(id, trainingProgram);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception taco)
             {
-                return View();
+                return View(trainingProgram);
             }
         }
+        
 
         // GET: TrainingProgram/Delete/5
         public ActionResult Delete(int id)
