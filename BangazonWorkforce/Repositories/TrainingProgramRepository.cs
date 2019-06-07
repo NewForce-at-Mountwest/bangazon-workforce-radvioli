@@ -80,9 +80,15 @@ namespace BangazonWorkforce.Repositories
                               tp.Name AS 'Name',
                               tp.StartDate AS 'Start Date',
                               tp.EndDate AS 'End Date',
-                              tp.MaxAttendees AS 'Max Attendees'
-                      FROM TrainingProgram tp
-                      WHERE tp.Id = @id";
+                              tp.MaxAttendees AS 'Max Attendees',
+                              e.Id AS 'Employee Id', 
+                              e.firstName AS 'First Name', 
+                              e.LastName AS 'Last Name', 
+                              e.DepartmentId AS 'Department Id' 
+                              FROM EmployeeTraining et
+                              FULL JOIN Employee e on et.EmployeeId = e.id 
+                              FULL JOIN TrainingProgram tp on et.TrainingProgramId = tp.id 
+                              WHERE tp.Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -122,8 +128,6 @@ namespace BangazonWorkforce.Repositories
                 }
             }
         }
-
-
 
 
         public static void CreateTrainingProgram(TrainingProgram model)

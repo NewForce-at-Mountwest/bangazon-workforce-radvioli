@@ -46,8 +46,6 @@ namespace BangazonWorkforce.Controllers
         {
             try
             {
-
-
                 TrainingProgramRepository.CreateTrainingProgram(model);
 
                 return RedirectToAction(nameof(Index));
