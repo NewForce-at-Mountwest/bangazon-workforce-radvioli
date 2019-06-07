@@ -1,0 +1,85 @@
+﻿
+@model BangazonWorkforce.Models.TrainingProgram
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Training Program</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.startDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.startDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.endDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.endDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.maxAttendees)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.maxAttendees)
+        </dd>
+    </dl>
+
+    <hr />
+    @if (Model.employeesInProgram.Count > 0)
+    {
+        <h4>Registered:</h4>
+        @foreach (var employee in Model.employeesInProgram)
+
+        {
+            <dl class="row">
+                <dt class="col-sm-2">@Html.DisplayNameFor(ModelItem => employee.id) </dt>
+                <dd class="col-sm-10"> @Html.DisplayFor(ModelItem => employee.id)</dd>
+                <dt class="col-sm-2">@Html.DisplayNameFor(ModelItem => employee.firstName)</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(ModelItem => employee.firstName)</dd>
+                <dt class="col-sm-2">@Html.DisplayNameFor(ModelItem => employee.lastName)</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(ModelItem => employee.lastName)</dd>
+                <dt class="col-sm-2">@Html.DisplayNameFor(ModelItem => employee.DepartmentId)</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(ModelItem => employee.DepartmentId)</dd>
+            </dl>
+            <hr />
+        }
+    }
+    else
+    {
+        <h4>No employees registered!</h4>
+
+    }
+</div>
+<div>
+    @if (Model.startDate > DateTime.Now)
+    {
+        @Html.ActionLink("Edit |", "Edit", new { id = Model.id })
+        <a asp-action="Index">Back to upcoming trainings</a>
+
+    }
+    else
+    {
+        <br />
+        <a asp-action="List">Back to past trainings</a>
+    }
+
+</div>
